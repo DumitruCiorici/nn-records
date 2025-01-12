@@ -23,10 +23,61 @@ const contactForm = document.getElementById('contact-form');
 contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Aici poți adăuga logica pentru trimiterea formularului
-    alert('Mulțumim pentru mesaj! Te vom contacta în curând.');
-    contactForm.reset();
+    const formData = {
+        name: this.querySelector('input[name="name"]').value,
+        email: this.querySelector('input[name="email"]').value,
+        message: this.querySelector('textarea[name="message"]').value,
+        timestamp: new Date().toISOString()
+    };
+
+    // Get existing messages or initialize empty array
+    let messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+    
+    // Add new message
+    messages.push(formData);
+    
+    // Save to localStorage
+    localStorage.setItem('contactMessages', JSON.stringify(messages));
+    
+    // Export messages to file
+    const messagesText = messages.map(msg => 
+        `Nume: ${msg.name}\nEmail: ${msg.email}\nData: ${new Date(msg.timestamp).toLocaleString()}\nMesaj:\n${msg.message}\n\n---\n\n`
+    ).join('');
+    
+    const blob = new Blob([messagesText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `contact_messages_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    // Show success message
+    alert('Mesajul a fost salvat și exportat cu succes!');
+    
+    // Reset form
+    this.reset();
 });
+
+// Function to export messages (optional)
+function exportMessages() {
+    const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+    const messagesText = messages.map(msg => 
+        `Nume: ${msg.name}\nEmail: ${msg.email}\nData: ${new Date(msg.timestamp).toLocaleString()}\nMesaj:\n${msg.message}\n\n---\n\n`
+    ).join('');
+    
+    const blob = new Blob([messagesText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'contact_messages.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
 
 // Animație la scroll
 window.addEventListener('scroll', () => {
