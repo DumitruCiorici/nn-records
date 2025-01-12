@@ -1,0 +1,675 @@
+/* Reset și variabile */
+:root {
+    --primary-color: #000000;
+    --accent-color: #ffffff;
+    --text-color: #ffffff;
+    --light-color: #ffffff;
+    --dark-color: #000000;
+    --neon-color: rgba(255, 255, 255, 0.8);
+    --neon-glow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+}
+
+.nav-links a {
+    margin-left: 2rem;
+    text-decoration: none;
+    color: var(--light-color);
+    transition: color 0.3s;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    color: var(--neon-color);
+    text-shadow: var(--neon-glow);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: var(--dark-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light-color);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Adăugăm un efect de grid în fundal pentru hero */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%),
+        linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+    background-size: 50px 50px;
+    opacity: 0.1;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(50px);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 8rem;
+    font-weight: 700;
+    letter-spacing: 15px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    animation: glitchText 5s infinite;
+}
+
+.hero-records {
+    font-size: 2rem;
+    letter-spacing: 10px;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    opacity: 0.8;
+}
+
+.hero-content p {
+    opacity: 1;
+    font-weight: 300;
+    letter-spacing: 5px;
+}
+
+.cta-buttons {
+    margin-top: 2rem;
+}
+
+.cta-primary, .cta-secondary {
+    display: inline-block;
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.3s;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.cta-primary {
+    background: var(--light-color);
+    color: var(--dark-color);
+    border: 1px solid var(--light-color);
+    font-weight: 400;
+}
+
+.cta-primary:hover {
+    background: transparent;
+    color: var(--light-color);
+    box-shadow: var(--neon-glow);
+}
+
+.cta-secondary {
+    border: 1px solid var(--light-color);
+    color: var(--light-color);
+}
+
+.cta-secondary:hover {
+    background: transparent;
+    box-shadow: var(--neon-glow);
+}
+
+/* Music Section */
+.music {
+    padding: 5rem 2rem;
+    background: var(--dark-color);
+    color: var(--light-color);
+}
+
+.music h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.music-item {
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.music-item:hover {
+    transform: translateY(-10px);
+}
+
+.music-item img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.5s ease;
+    filter: grayscale(100%);
+}
+
+.music-item:hover img {
+    transform: scale(1.1);
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--light-color);
+    color: var(--dark-color);
+    padding: 1rem;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.music-item:hover .play-button {
+    opacity: 1;
+}
+
+/* About Section */
+.about {
+    padding: 5rem 2rem;
+    background: var(--dark-color);
+    color: var(--light-color);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-content img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Contact Section */
+.contact {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: var(--dark-color);
+    color: var(--light-color);
+}
+
+.social-links {
+    margin: 2rem 0;
+}
+
+.social-links a {
+    font-size: 2rem;
+    margin: 0 1rem;
+    color: var(--light-color);
+    transition: color 0.3s;
+    position: relative;
+}
+
+.social-links a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -5px;
+    left: 0;
+    background: var(--dark-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.social-links a:hover::after {
+    transform: scaleX(1);
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+input, textarea {
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    background: transparent;
+    transition: all 0.3s ease;
+    color: var(--light-color);
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--light-color);
+    box-shadow: var(--neon-glow);
+}
+
+button {
+    padding: 1rem;
+    background: var(--light-color);
+    color: var(--dark-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+button:hover {
+    background: transparent;
+    color: var(--light-color);
+    border: 1px solid var(--light-color);
+    box-shadow: var(--neon-glow);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: var(--dark-color);
+    color: var(--light-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .hamburger {
+        display: block;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+} 
+
+/* Adăugăm animații noi */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Adăugăm loading animation */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.loading-content {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.loading-text {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nn-text {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--light-color);
+    animation: glitchNN 2s infinite;
+}
+
+.records-text {
+    font-size: 4rem;
+    color: var(--light-color);
+    font-weight: 300;
+    letter-spacing: 0.2rem;
+    transform: translateX(-20px);
+    opacity: 0;
+    animation: slideInRecords 0.8s ease-out 0.5s forwards;
+}
+
+@keyframes slideInRecords {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Actualizăm stilul pentru efectul de glitch */
+.nn-text::before {
+    animation: glitchTop 0.8s infinite;
+}
+
+.nn-text::after {
+    animation: glitchBottom 0.8s infinite;
+}
+
+@keyframes glitchTop {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitchBottom {
+    0% { transform: translate(0); }
+    20% { transform: translate(2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+    100% { transform: translate(0); }
+}
+
+/* Adăugăm animație de ieșire pentru loading screen */
+.loading.fade-out {
+    opacity: 0;
+}
+
+/* Adăugăm clase pentru animația de tranziție */
+.loading.start-transition .loading-content {
+    transform: translate(-50%, 150%);
+    opacity: 0;
+}
+
+.hero-content p {
+    opacity: 1;
+    font-weight: 300;
+    letter-spacing: 5px;
+}
+
+.hero-content.show-text p {
+    opacity: 1;
+    transition: opacity 0.5s ease-out 0.8s;
+}
+
+/* New Release Section */
+.new-release {
+    padding: 8rem 2rem;
+    background: var(--dark-color);
+    color: var(--light-color);
+}
+
+.release-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.release-info {
+    padding-right: 2rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--light-color);
+    color: var(--dark-color);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.release-info h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+}
+
+.release-date {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.release-description {
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.streaming-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stream-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--light-color);
+    color: var(--light-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.stream-button:hover {
+    background: var(--light-color);
+    color: var(--dark-color);
+    box-shadow: var(--neon-glow);
+}
+
+.release-artwork {
+    position: relative;
+}
+
+.release-artwork img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.track-list {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.track-list h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.track-list ol {
+    list-style: none;
+    counter-reset: item;
+}
+
+.track-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.track-list li::before {
+    content: counter(item) ".";
+    counter-increment: item;
+    margin-right: 1rem;
+    color: var(--gray-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .release-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .release-info {
+        padding-right: 0;
+    }
+
+    .release-info h2 {
+        font-size: 2rem;
+    }
+} 
+
+/* Adăugăm efecte de hover pentru imagini */
+.release-artwork img:hover, .music-item img:hover {
+    filter: brightness(1.2);
+}
+
+/* Actualizăm efectul de glitch pentru loading */
+.nn-text::before, .nn-text::after {
+    text-shadow: var(--neon-glow);
+}
+
+/* Adăugăm un efect subtil de scanline pentru secțiunile întunecate */
+.new-release::before, .music::before, .about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    opacity: 0.1;
+}
+
+/* Actualizăm efectele de hover pentru link-uri */
+a:not(.cta-primary):not(.cta-secondary):hover {
+    color: var(--neon-color);
+    text-shadow: var(--neon-glow);
+} 
+
+/* Adăugăm efect de glitch pentru textul din hero */
+@keyframes glitchText {
+    0%, 100% {
+        text-shadow: none;
+    }
+    92% {
+        text-shadow: 
+            -2px 0 var(--neon-color),
+            2px 2px var(--neon-color);
+    }
+    94% {
+        text-shadow: 
+            2px -2px var(--neon-color),
+            -2px -2px var(--neon-color);
+    }
+    96% {
+        text-shadow: 
+            2px 0 var(--neon-color),
+            -2px -2px var(--neon-color);
+    }
+    98% {
+        text-shadow: 
+            -2px 2px var(--neon-color),
+            2px -2px var(--neon-color);
+    }
+} 
