@@ -107,4 +107,53 @@ window.addEventListener('scroll', () => {
         hero.style.backgroundPositionY = -(st * 0.3) + 'px';
     }
     lastScrollTop = st;
-}); 
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+    });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target) && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+    }
+});
+
+// Prevent scroll when mobile menu is open
+hamburger.addEventListener('click', () => {
+    if (navLinks.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// Reset styles on window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// Optimize loading animation for mobile
+const isMobile = window.innerWidth <= 768;
+if (isMobile) {
+    document.querySelector('.loading-text').style.animation = 'none';
+    document.querySelector('.records-text').style.animation = 'none';
+    setTimeout(() => {
+        document.querySelector('.loading-text').style.animation = '';
+        document.querySelector('.records-text').style.animation = '';
+    }, 100);
+} 
