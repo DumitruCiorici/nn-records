@@ -104,6 +104,161 @@ window.addEventListener('scroll', () => {
     hero.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
 });
 
+// GSAP ScrollTrigger Animations
+gsap.registerPlugin(ScrollTrigger);
+
+// Music Section Animations
+function initMusicSectionAnimations() {
+    // Header animation with enhanced timeline
+    const headerTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.section-header',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        }
+    });
+
+    headerTimeline
+        .from('.section-header h2', {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        })
+        .from('.header-line', {
+            scaleX: 0,
+            duration: 0.8,
+            ease: 'power3.inOut'
+        }, '-=0.5');
+
+    // Music items stagger animation
+    const musicItems = gsap.utils.toArray('.music-item');
+    
+    musicItems.forEach((item, i) => {
+        gsap.set(item, { 
+            opacity: 0,
+            y: 50
+        });
+
+        ScrollTrigger.create({
+            trigger: item,
+            start: 'top 85%',
+            onEnter: () => {
+                gsap.to(item, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    delay: i * 0.2,
+                    ease: 'power3.out',
+                    overwrite: 'auto'
+                });
+            },
+            once: true
+        });
+    });
+
+    // Individual card hover animations
+    musicItems.forEach((item) => {
+        const artwork = item.querySelector('.music-artwork img');
+        const details = item.querySelector('.music-details');
+        const playIcon = item.querySelector('.play-icon');
+        const tags = item.querySelectorAll('.tag');
+        const platforms = item.querySelectorAll('.platform-icon');
+        const bg = item.querySelector('.music-item-bg');
+
+        // Create hover timeline for each card
+        const hoverTimeline = gsap.timeline({ 
+            paused: true,
+            defaults: { duration: 0.4, ease: 'power2.out' }
+        });
+        
+        hoverTimeline
+            .to(artwork, {
+                scale: 1.05
+            })
+            .to(bg, {
+                opacity: 1
+            }, 0)
+            .to(details, {
+                y: -10
+            }, 0)
+            .to(playIcon, {
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                ease: 'back.out(1.7)'
+            }, 0)
+            .to(tags, {
+                scale: 1.05,
+                y: -2,
+                stagger: 0.1
+            }, 0.1)
+            .to(platforms, {
+                y: -3,
+                opacity: 1,
+                stagger: 0.05
+            }, 0.2);
+
+        // Mouse enter/leave events
+        item.addEventListener('mouseenter', () => {
+            hoverTimeline.play();
+        });
+
+        item.addEventListener('mouseleave', () => {
+            hoverTimeline.reverse();
+        });
+
+        // Platform icons individual hover effect
+        platforms.forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                gsap.to(icon, {
+                    scale: 1.2,
+                    duration: 0.3,
+                    ease: 'back.out(1.7)',
+                    overwrite: 'auto'
+                });
+            });
+
+            icon.addEventListener('mouseleave', () => {
+                gsap.to(icon, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                });
+            });
+        });
+
+        // Tags hover effect
+        tags.forEach(tag => {
+            tag.addEventListener('mouseenter', () => {
+                gsap.to(tag, {
+                    scale: 1.1,
+                    y: -4,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                });
+            });
+
+            tag.addEventListener('mouseleave', () => {
+                gsap.to(tag, {
+                    scale: 1,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                });
+            });
+        });
+    });
+}
+
+// Initialize animations after DOM content is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initMusicSectionAnimations();
+});
+
 // Simplificăm codul de loading
 window.addEventListener('load', () => {
     const loading = document.querySelector('.loading');
@@ -195,7 +350,6 @@ window.addEventListener('resize', () => {
         document.body.style.overflow = 'auto';
     }
 });
-
 // Optimize loading animation for mobile
 const isMobile = window.innerWidth <= 768;
 if (isMobile) {
