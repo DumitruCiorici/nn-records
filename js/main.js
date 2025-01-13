@@ -254,9 +254,469 @@ function initMusicSectionAnimations() {
     });
 }
 
-// Initialize animations after DOM content is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initMusicSectionAnimations();
+// Hero Section Animations
+function initHeroAnimations() {
+    const heroTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1
+        }
+    });
+
+    heroTimeline
+        .to(".hero-content", {
+            y: 100,
+            opacity: 0.5,
+            scale: 0.9,
+            ease: "none"
+        });
+
+    // Morphing text effect for hero title
+    const heroText = new SplitType(".hero h1", { types: "chars" });
+    gsap.from(heroText.chars, {
+        opacity: 0,
+        y: 100,
+        rotateX: -90,
+        stagger: 0.02,
+        duration: 1,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+            trigger: ".hero h1",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        }
+    });
+}
+
+// New Release Section Animations
+function initNewReleaseAnimations() {
+    // Create a morphing path effect for the artwork container
+    const artworkContainer = document.querySelector('.artwork-container');
+    gsap.set(artworkContainer, {
+        clipPath: "circle(0% at 50% 50%)"
+    });
+
+    gsap.to(artworkContainer, {
+        clipPath: "circle(100% at 50% 50%)",
+        duration: 1.2,
+        ease: "power2.inOut",
+        scrollTrigger: {
+            trigger: ".release-artwork",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        }
+    });
+
+    // Enhanced artwork rotation and floating effect
+    const artworkTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".release-artwork",
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 1
+        }
+    });
+
+    artworkTimeline
+        .to(".artwork-container", {
+            rotation: 5,
+            scale: 1.05,
+            yoyo: true,
+            repeat: -1,
+            duration: 2,
+            ease: "sine.inOut"
+        })
+        .to(".play-overlay", {
+            scale: 1.1,
+            opacity: 0.8,
+            yoyo: true,
+            repeat: -1,
+            duration: 1.5,
+            ease: "sine.inOut"
+        }, 0);
+
+    // Advanced waveform visualization
+    const waveBars = document.querySelectorAll('.wave-bars span');
+    waveBars.forEach((bar, index) => {
+        gsap.to(bar, {
+            height: `random(20, 80)`,
+            duration: `random(0.5, 1.5)`,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: index * 0.1
+        });
+    });
+
+    // Release info morphing animations
+    const releaseTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".release-info",
+            start: "top 70%",
+            toggleActions: "play none none reverse"
+        }
+    });
+
+    // Split text animation for release title
+    const releaseTitle = new SplitType(".release-info h2", { types: "chars,words" });
+    
+    releaseTimeline
+        .from(".release-header", {
+            x: -50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        })
+        .from(releaseTitle.chars, {
+            opacity: 0,
+            y: 20,
+            rotateX: -90,
+            stagger: 0.02,
+            duration: 0.8,
+            ease: "back.out(1.7)"
+        }, "-=0.4")
+        .from(".release-description", {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        }, "-=0.6");
+
+    // Enhanced track list animations
+    const trackItems = gsap.utils.toArray(".track-list li");
+    trackItems.forEach((item, i) => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: item,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        tl.from(item, {
+            x: -50,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power3.out",
+            delay: i * 0.15
+        })
+        .from(item.querySelector('.track-number'), {
+            scale: 0,
+            rotation: -180,
+            duration: 0.4,
+            ease: "back.out(1.7)"
+        }, "-=0.3")
+        .from(item.querySelector('.track-duration'), {
+            x: 20,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power3.out"
+        }, "-=0.2");
+
+        // Hover effect for track items
+        item.addEventListener('mouseenter', () => {
+            gsap.to(item, {
+                x: 10,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            gsap.to(item.querySelector('.track-number'), {
+                scale: 1.2,
+                color: "#ff0066",
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+
+        item.addEventListener('mouseleave', () => {
+            gsap.to(item, {
+                x: 0,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            gsap.to(item.querySelector('.track-number'), {
+                scale: 1,
+                color: "inherit",
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+    });
+
+    // Streaming links animation
+    const streamingLinks = gsap.utils.toArray(".streaming-links a");
+    streamingLinks.forEach((link, i) => {
+        gsap.from(link, {
+            scale: 0,
+            rotation: -30,
+            opacity: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+                trigger: ".streaming-links",
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            },
+            delay: i * 0.2
+        });
+
+        // Enhanced hover effect for streaming buttons
+        link.addEventListener('mouseenter', () => {
+            gsap.to(link, {
+                scale: 1.05,
+                y: -5,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+
+        link.addEventListener('mouseleave', () => {
+            gsap.to(link, {
+                scale: 1,
+                y: 0,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+    });
+}
+
+// Contact Section Animations
+function initContactAnimations() {
+    // Social icons morphing path animation
+    const socialLinks = gsap.utils.toArray(".social-links a");
+    
+    // Create staggered entrance for social icons with morphing
+    socialLinks.forEach((link, i) => {
+        gsap.set(link, {
+            opacity: 0,
+            scale: 0,
+            rotation: 180
+        });
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".social-links",
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        tl.to(link, {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+            delay: i * 0.1
+        });
+
+        // Enhanced hover animation for social icons
+        link.addEventListener('mouseenter', () => {
+            gsap.to(link, {
+                scale: 1.2,
+                rotation: 15,
+                y: -5,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            gsap.to(link.querySelector('i'), {
+                color: "#ff0066",
+                duration: 0.3
+            });
+        });
+
+        link.addEventListener('mouseleave', () => {
+            gsap.to(link, {
+                scale: 1,
+                rotation: 0,
+                y: 0,
+                duration: 0.3,
+                ease: "power2.inOut"
+            });
+            gsap.to(link.querySelector('i'), {
+                color: "inherit",
+                duration: 0.3
+            });
+        });
+    });
+
+    // Contact form morphing animations
+    const formElements = {
+        inputs: gsap.utils.toArray("#contact-form input"),
+        textarea: document.querySelector("#contact-form textarea"),
+        button: document.querySelector("#contact-form button"),
+        formStatus: document.querySelector("#form-status")
+    };
+
+    // Create timeline for form elements
+    const formTimeline = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#contact-form",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        }
+    });
+
+    // Set initial states
+    gsap.set(formElements.inputs, { opacity: 0, y: 30 });
+    gsap.set(formElements.textarea, { opacity: 0, y: 30 });
+    gsap.set(formElements.button, { opacity: 0, scale: 0 });
+
+    // Animate form elements
+    formTimeline
+        .to(formElements.inputs, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        })
+        .to(formElements.textarea, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        }, "-=0.4")
+        .to(formElements.button, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: "back.out(1.7)"
+        }, "-=0.2");
+
+    // Input focus animations
+    formElements.inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            gsap.to(input, {
+                scale: 1.02,
+                boxShadow: "0 0 20px rgba(255, 0, 102, 0.3)",
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+
+        input.addEventListener('blur', () => {
+            gsap.to(input, {
+                scale: 1,
+                boxShadow: "none",
+                duration: 0.3,
+                ease: "power2.inOut"
+            });
+        });
+    });
+
+    // Textarea focus animation
+    formElements.textarea.addEventListener('focus', () => {
+        gsap.to(formElements.textarea, {
+            scale: 1.02,
+            boxShadow: "0 0 20px rgba(255, 0, 102, 0.3)",
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+
+    formElements.textarea.addEventListener('blur', () => {
+        gsap.to(formElements.textarea, {
+            scale: 1,
+            boxShadow: "none",
+            duration: 0.3,
+            ease: "power2.inOut"
+        });
+    });
+
+    // Button hover animation
+    formElements.button.addEventListener('mouseenter', () => {
+        gsap.to(formElements.button, {
+            scale: 1.1,
+            backgroundColor: "#ff0066",
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+
+    formElements.button.addEventListener('mouseleave', () => {
+        gsap.to(formElements.button, {
+            scale: 1,
+            backgroundColor: "initial",
+            duration: 0.3,
+            ease: "power2.inOut"
+        });
+    });
+
+    // Form submission animation
+    const form = document.querySelector("#contact-form");
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Animate button during submission
+        gsap.to(formElements.button, {
+            scale: 0.95,
+            duration: 0.2,
+            ease: "power2.inOut",
+            yoyo: true,
+            repeat: 1
+        });
+
+        // Show status with animation
+        formElements.formStatus.style.display = 'block';
+        gsap.fromTo(formElements.formStatus, 
+            {
+                opacity: 0,
+                y: 20
+            },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: "power2.out"
+            }
+        );
+
+        // Simulate form submission (replace with your actual form submission logic)
+        setTimeout(() => {
+            // Success animation
+            gsap.to(formElements.formStatus, {
+                backgroundColor: "rgba(0, 255, 0, 0.1)",
+                color: "green",
+                duration: 0.3
+            });
+            
+            // Reset form with animation
+            gsap.to(formElements.inputs.concat(formElements.textarea), {
+                value: "",
+                duration: 0.3,
+                ease: "power2.inOut",
+                stagger: 0.1
+            });
+        }, 1000);
+    });
+
+    // Section title animation
+    const contactTitle = new SplitType("#contact h2", { types: "chars" });
+    gsap.from(contactTitle.chars, {
+        opacity: 0,
+        y: 50,
+        rotateX: -90,
+        stagger: 0.05,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+            trigger: "#contact h2",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        }
+    });
+}
+
+// Initialize all animations
+document.addEventListener("DOMContentLoaded", () => {
+    initHeroAnimations();
+    initNewReleaseAnimations();
+    initContactAnimations();
+    initMusicSectionAnimations(); // Already existing function
 });
 
 // Simplificăm codul de loading
