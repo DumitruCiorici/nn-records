@@ -461,26 +461,6 @@ nav {
     }
 }
 
-/* About Section */
-.about {
-    padding: 5rem 2rem;
-    background: var(--dark-color);
-    color: var(--light-color);
-}
-
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.about-content img {
-    width: 100%;
-    border-radius: 10px;
-}
-
 /* Contact Section */
 .contact {
     padding: 5rem 2rem;
