@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "gsap": "^3.12.5",
-    "scrolltrigger": "^1.0.1"
+    "scrolltrigger": "^1.0.1",
+    "sharp": "^0.33.5"
   }
 }
