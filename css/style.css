@@ -955,6 +955,7 @@ footer {
     font-weight: 700;
     background: linear-gradient(45deg, #fff, #ccc);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
