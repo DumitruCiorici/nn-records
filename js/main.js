@@ -25,36 +25,43 @@ const contactForm = document.getElementById('contact-form');
 contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const formData = {
-        name: this.querySelector('input[name="name"]').value,
-        email: this.querySelector('input[name="email"]').value,
-        message: this.querySelector('textarea[name="message"]').value,
-        timestamp: new Date().toISOString()
-    };
+    const formData = new FormData(this);
+    const submitButton = this.querySelector('button[type="submit"]');
+    const formStatus = document.getElementById('form-status');
+    
+    // Show loading state
+    submitButton.disabled = true;
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Se trimite...';
+    formStatus.style.display = 'block';
+    formStatus.innerHTML = 'Se trimite mesajul...';
+    formStatus.style.color = '#666';
 
-    let messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
-    
-    messages.push(formData);
-    
-    localStorage.setItem('contactMessages', JSON.stringify(messages));
-    
-    const messagesText = messages.map(msg => 
-        `Nume: ${msg.name}\nEmail: ${msg.email}\nData: ${new Date(msg.timestamp).toLocaleString()}\nMesaj:\n${msg.message}\n\n---\n\n`
-    ).join('');
-    
-    const blob = new Blob([messagesText], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `contact_messages_${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert('Mesajul a fost salvat și exportat cu succes!');
-    
-    this.reset();
+    fetch('https://formspree.io/f/xgvvqerq', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            formStatus.innerHTML = 'Mulțumim! Mesajul a fost trimis cu succes.';
+            formStatus.style.color = '#4CAF50';
+            this.reset();
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        formStatus.innerHTML = 'A apărut o eroare. Vă rugăm încercați din nou.';
+        formStatus.style.color = '#f44336';
+    })
+    .finally(() => {
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalButtonText;
+    });
 });
 
 function exportMessages() {
