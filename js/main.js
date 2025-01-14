@@ -1,4 +1,3 @@
-// Navigation hamburger menu
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
 
@@ -12,7 +11,6 @@ hamburger.addEventListener('click', () => {
     }
 });
 
-// Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -22,7 +20,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Form submission
 const contactForm = document.getElementById('contact-form');
 
 contactForm.addEventListener('submit', function(e) {
@@ -35,16 +32,12 @@ contactForm.addEventListener('submit', function(e) {
         timestamp: new Date().toISOString()
     };
 
-    // Get existing messages or initialize empty array
     let messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
     
-    // Add new message
     messages.push(formData);
     
-    // Save to localStorage
     localStorage.setItem('contactMessages', JSON.stringify(messages));
     
-    // Export messages to file
     const messagesText = messages.map(msg => 
         `Nume: ${msg.name}\nEmail: ${msg.email}\nData: ${new Date(msg.timestamp).toLocaleString()}\nMesaj:\n${msg.message}\n\n---\n\n`
     ).join('');
@@ -59,14 +52,11 @@ contactForm.addEventListener('submit', function(e) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    // Show success message
     alert('Mesajul a fost salvat și exportat cu succes!');
     
-    // Reset form
     this.reset();
 });
 
-// Function to export messages (optional)
 function exportMessages() {
     const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
     const messagesText = messages.map(msg => 
@@ -84,7 +74,6 @@ function exportMessages() {
     URL.revokeObjectURL(url);
 }
 
-// Animație la scroll
 window.addEventListener('scroll', () => {
     const sections = document.querySelectorAll('section');
     
@@ -97,19 +86,15 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Efect de parallax pentru hero section
 window.addEventListener('scroll', () => {
     const hero = document.querySelector('.hero');
     const scrolled = window.pageYOffset;
     hero.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
 });
 
-// GSAP ScrollTrigger Animations
 gsap.registerPlugin(ScrollTrigger);
 
-// Music Section Animations
 function initMusicSectionAnimations() {
-    // Header animation with enhanced timeline
     const headerTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: '.section-header',
@@ -131,7 +116,6 @@ function initMusicSectionAnimations() {
             ease: 'power3.inOut'
         }, '-=0.5');
 
-    // Music items stagger animation
     const musicItems = gsap.utils.toArray('.music-item');
     
     musicItems.forEach((item, i) => {
@@ -157,7 +141,6 @@ function initMusicSectionAnimations() {
         });
     });
 
-    // Individual card hover animations
     musicItems.forEach((item) => {
         const artwork = item.querySelector('.music-artwork img');
         const details = item.querySelector('.music-details');
@@ -166,7 +149,6 @@ function initMusicSectionAnimations() {
         const platforms = item.querySelectorAll('.platform-icon');
         const bg = item.querySelector('.music-item-bg');
 
-        // Create hover timeline for each card
         const hoverTimeline = gsap.timeline({ 
             paused: true,
             defaults: { duration: 0.4, ease: 'power2.out' }
@@ -199,7 +181,6 @@ function initMusicSectionAnimations() {
                 stagger: 0.05
             }, 0.2);
 
-        // Mouse enter/leave events
         item.addEventListener('mouseenter', () => {
             hoverTimeline.play();
         });
@@ -208,7 +189,6 @@ function initMusicSectionAnimations() {
             hoverTimeline.reverse();
         });
 
-        // Platform icons individual hover effect
         platforms.forEach(icon => {
             icon.addEventListener('mouseenter', () => {
                 gsap.to(icon, {
@@ -229,7 +209,6 @@ function initMusicSectionAnimations() {
             });
         });
 
-        // Tags hover effect
         tags.forEach(tag => {
             tag.addEventListener('mouseenter', () => {
                 gsap.to(tag, {
@@ -254,7 +233,6 @@ function initMusicSectionAnimations() {
     });
 }
 
-// Hero Section Animations
 function initHeroAnimations() {
     const heroTimeline = gsap.timeline({
         scrollTrigger: {
@@ -273,7 +251,6 @@ function initHeroAnimations() {
             ease: "none"
         });
 
-    // Morphing text effect for hero title
     const heroText = new SplitType(".hero h1", { types: "chars" });
     gsap.from(heroText.chars, {
         opacity: 0,
@@ -290,9 +267,7 @@ function initHeroAnimations() {
     });
 }
 
-// New Release Section Animations
 function initNewReleaseAnimations() {
-    // Create a morphing path effect for the artwork container
     const artworkContainer = document.querySelector('.artwork-container');
     gsap.set(artworkContainer, {
         clipPath: "circle(0% at 50% 50%)"
@@ -309,7 +284,6 @@ function initNewReleaseAnimations() {
         }
     });
 
-    // Enhanced artwork rotation and floating effect
     const artworkTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".release-artwork",
@@ -337,7 +311,6 @@ function initNewReleaseAnimations() {
             ease: "sine.inOut"
         }, 0);
 
-    // Advanced waveform visualization
     const waveBars = document.querySelectorAll('.wave-bars span');
     waveBars.forEach((bar, index) => {
         gsap.to(bar, {
@@ -350,7 +323,6 @@ function initNewReleaseAnimations() {
         });
     });
 
-    // Release info morphing animations
     const releaseTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".release-info",
@@ -359,7 +331,6 @@ function initNewReleaseAnimations() {
         }
     });
 
-    // Split text animation for release title
     const releaseTitle = new SplitType(".release-info h2", { types: "chars,words" });
     
     releaseTimeline
@@ -384,7 +355,6 @@ function initNewReleaseAnimations() {
             ease: "power3.out"
         }, "-=0.6");
 
-    // Enhanced track list animations
     const trackItems = gsap.utils.toArray(".track-list li");
     trackItems.forEach((item, i) => {
         const tl = gsap.timeline({
@@ -415,7 +385,6 @@ function initNewReleaseAnimations() {
             ease: "power3.out"
         }, "-=0.2");
 
-        // Hover effect for track items
         item.addEventListener('mouseenter', () => {
             gsap.to(item, {
                 x: 10,
@@ -445,7 +414,6 @@ function initNewReleaseAnimations() {
         });
     });
 
-    // Streaming links animation
     const streamingLinks = gsap.utils.toArray(".streaming-links a");
     streamingLinks.forEach((link, i) => {
         gsap.from(link, {
@@ -462,7 +430,6 @@ function initNewReleaseAnimations() {
             delay: i * 0.2
         });
 
-        // Enhanced hover effect for streaming buttons
         link.addEventListener('mouseenter', () => {
             gsap.to(link, {
                 scale: 1.05,
@@ -483,12 +450,9 @@ function initNewReleaseAnimations() {
     });
 }
 
-// Contact Section Animations
 function initContactAnimations() {
-    // Social icons morphing path animation
     const socialLinks = gsap.utils.toArray(".social-links a");
     
-    // Create staggered entrance for social icons with morphing
     socialLinks.forEach((link, i) => {
         gsap.set(link, {
             opacity: 0,
@@ -513,7 +477,6 @@ function initContactAnimations() {
             delay: i * 0.1
         });
 
-        // Enhanced hover animation for social icons
         link.addEventListener('mouseenter', () => {
             gsap.to(link, {
                 scale: 1.2,
@@ -543,7 +506,6 @@ function initContactAnimations() {
         });
     });
 
-    // Contact form morphing animations
     const formElements = {
         inputs: gsap.utils.toArray("#contact-form input"),
         textarea: document.querySelector("#contact-form textarea"),
@@ -551,7 +513,6 @@ function initContactAnimations() {
         formStatus: document.querySelector("#form-status")
     };
 
-    // Create timeline for form elements
     const formTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: "#contact-form",
@@ -560,12 +521,10 @@ function initContactAnimations() {
         }
     });
 
-    // Set initial states
     gsap.set(formElements.inputs, { opacity: 0, y: 30 });
     gsap.set(formElements.textarea, { opacity: 0, y: 30 });
     gsap.set(formElements.button, { opacity: 0, scale: 0 });
 
-    // Animate form elements
     formTimeline
         .to(formElements.inputs, {
             opacity: 1,
@@ -587,7 +546,6 @@ function initContactAnimations() {
             ease: "back.out(1.7)"
         }, "-=0.2");
 
-    // Input focus animations
     formElements.inputs.forEach(input => {
         input.addEventListener('focus', () => {
             gsap.to(input, {
@@ -608,7 +566,6 @@ function initContactAnimations() {
         });
     });
 
-    // Textarea focus animation
     formElements.textarea.addEventListener('focus', () => {
         gsap.to(formElements.textarea, {
             scale: 1.02,
@@ -627,7 +584,6 @@ function initContactAnimations() {
         });
     });
 
-    // Button hover animation
     formElements.button.addEventListener('mouseenter', () => {
         gsap.to(formElements.button, {
             scale: 1.1,
@@ -646,12 +602,10 @@ function initContactAnimations() {
         });
     });
 
-    // Form submission animation
     const form = document.querySelector("#contact-form");
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Animate button during submission
         gsap.to(formElements.button, {
             scale: 0.95,
             duration: 0.2,
@@ -660,7 +614,6 @@ function initContactAnimations() {
             repeat: 1
         });
 
-        // Show status with animation
         formElements.formStatus.style.display = 'block';
         gsap.fromTo(formElements.formStatus, 
             {
@@ -675,16 +628,13 @@ function initContactAnimations() {
             }
         );
 
-        // Simulate form submission (replace with your actual form submission logic)
         setTimeout(() => {
-            // Success animation
             gsap.to(formElements.formStatus, {
                 backgroundColor: "rgba(0, 255, 0, 0.1)",
                 color: "green",
                 duration: 0.3
             });
             
-            // Reset form with animation
             gsap.to(formElements.inputs.concat(formElements.textarea), {
                 value: "",
                 duration: 0.3,
@@ -694,7 +644,6 @@ function initContactAnimations() {
         }, 1000);
     });
 
-    // Section title animation
     const contactTitle = new SplitType("#contact h2", { types: "chars" });
     gsap.from(contactTitle.chars, {
         opacity: 0,
@@ -711,15 +660,13 @@ function initContactAnimations() {
     });
 }
 
-// Initialize all animations
 document.addEventListener("DOMContentLoaded", () => {
     initHeroAnimations();
     initNewReleaseAnimations();
     initContactAnimations();
-    initMusicSectionAnimations(); // Already existing function
+    initMusicSectionAnimations();
 });
 
-// Simplificăm codul de loading
 window.addEventListener('load', () => {
     const loading = document.querySelector('.loading');
     
@@ -735,7 +682,6 @@ window.addEventListener('load', () => {
     }, 1500);
 });
 
-// Îmbunătățim animațiile la scroll
 const observerOptions = {
     threshold: 0.3
 };
@@ -756,7 +702,6 @@ document.querySelectorAll('section, .music-item').forEach((el, index) => {
     observer.observe(el);
 });
 
-// Adăugăm efect de hover pentru logo
 const logo = document.querySelector('.logo');
 logo.addEventListener('mouseover', () => {
     logo.style.transform = 'scale(1.1)';
@@ -765,7 +710,6 @@ logo.addEventListener('mouseout', () => {
     logo.style.transform = 'scale(1)';
 });
 
-// Îmbunătățim efectul de parallax
 let lastScrollTop = 0;
 window.addEventListener('scroll', () => {
     const hero = document.querySelector('.hero');
@@ -780,7 +724,6 @@ window.addEventListener('scroll', () => {
     lastScrollTop = st;
 });
 
-// Close mobile menu when clicking a link
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
@@ -791,7 +734,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
-// Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
     if (window.innerWidth <= 768) {
         if (!navLinks.contains(e.target) && !hamburger.contains(e.target) && navLinks.classList.contains('active')) {
@@ -802,7 +744,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Reset styles on window resize
 window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
         navLinks.classList.remove('active');
@@ -810,7 +751,7 @@ window.addEventListener('resize', () => {
         document.body.style.overflow = 'auto';
     }
 });
-// Optimize loading animation for mobile
+
 const isMobile = window.innerWidth <= 768;
 if (isMobile) {
     document.querySelector('.loading-text').style.animation = 'none';
